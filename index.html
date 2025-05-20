@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CC Generator - By Foysal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>CC Generator</h1>
+    <form>
+      <label for="bin">BIN</label>
+      <input type="text" id="bin" placeholder="Enter BIN">
+
+      <label for="date">Date</label>
+      <div class="date-group">
+        <select id="month">
+          <option>Random</option>
+          <option>01</option>
+          <option>02</option>
+          <option>03</option>
+          <option>04</option>
+          <option>05</option>
+          <option>06</option>
+          <option>07</option>
+          <option>08</option>
+          <option>09</option>
+          <option>10</option>
+          <option>11</option>
+          <option>12</option>
+        </select>
+        <select id="year">
+          <option>Random</option>
+          <option>2025</option>
+          <option>2026</option>
+          <option>2027</option>
+          <option>2028</option>
+          <option>2029</option>
+          <option>2030</option>
+          <option>2031</option>
+          <option>2032</option>
+          <option>2033</option>
+          <option>2034</option>
+          <option>2035</option>
+        </select>
+      </div>
+
+      <label for="cvv">CCV2</label>
+      <input type="text" id="cvv" placeholder="Leave blank to randomize">
+
+      <label for="qty">Quantity</label>
+      <input type="number" id="qty" value="10">
+
+      <button class="btn" type="button">Generate Cards</button>
+
+      <label for="result">Result</label>
+      <textarea id="result" readonly></textarea>
+      <button class="btn" type="button">Copy Cards</button>
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
