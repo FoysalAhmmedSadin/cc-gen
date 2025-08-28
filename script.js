@@ -38,14 +38,15 @@ function generateCard(bin, month, year, ccv, quantity) {
       }
     }
 
-    const mm = month === 'Random' ? String(Math.floor(Math.random() * 12) + 1).padStart(2, '0') : month;
-    const yy = year === 'Random' ? String(new Date().getFullYear() + Math.floor(Math.random() * 4)) : year;
+    const mm = month === 'Random'? String(Math.floor(Math.random() * 12) + 1).padStart(2, '0') : month;
+
+    const yy = year === 'Random'? String(new Date().getFullYear() + Math.floor(Math.random() * 4)) : year;
 
     const isAmex = cardNumber.startsWith('34') || cardNumber.startsWith('37');
     const cvvLength = isAmex ? 4 : 3;
     const finalCvv = ccv === '' ? generateRandomNumber(cvvLength) : ccv;
 
-    cards.push(`${cardNumber}|${mm}|${yy}|${finalCvv}`);
+    cards.push(`${cardNumber}|${mm}|${yyyy}|${finalCvv}`);
   }
   return cards;
 }
