@@ -45,7 +45,7 @@ function generateCard(bin, month, year, ccv, quantity) {
     const cvvLength = isAmex ? 4 : 3;
     const finalCvv = ccv === '' ? generateRandomNumber(cvvLength) : ccv;
 
-    cards.push(`${cardNumber}|${mm}|${yy}|${finalCvv}`);
+    cards.push(`${cardNumber}|${mm}|${yyyy}|${finalCvv}`);
   }
   return cards;
 }
