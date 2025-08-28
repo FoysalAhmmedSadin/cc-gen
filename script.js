@@ -39,7 +39,7 @@ function generateCard(bin, month, year, ccv, quantity) {
     }
 
     const mm = month === 'Random' ? String(Math.floor(Math.random() * 12) + 1).padStart(2, '0') : month;
-    const yy = year === 'Random' ? String(new Date().getFullYear() + Math.floor(Math.random() * 4)).slice(-2) : year.slice(-2);
+    const yy = year === 'Random' ? String(new Date().getFullYear() + Math.floor(Math.random() * 4)) : year;
 
     const isAmex = cardNumber.startsWith('34') || cardNumber.startsWith('37');
     const cvvLength = isAmex ? 4 : 3;
