@@ -1,11 +1,83 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CC Generator - By Foysal</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: black;
+      color: #00FF00;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00FF00;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00FF00;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      color: #00FF00;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      border: 1px solid #00FF00;
+      border-radius: 5px;
+      background-color: #000;
+      color: #00FF00;
+      font-family: 'Courier New', monospace;
+    }
+
+    .date-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 220px;
+    }
+
+    .btn {
+      padding: 12px;
+      border: 2px solid #00FF00;
+      background-color: transparent;
+      color: #00FF00;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #00FF00;
+      color: black;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -60,6 +132,86 @@
       <button class="btn" type="button">Copy Cards</button>
     </form>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    function luhnCheck(cardNumber) {
+      let sum = 0;
+      let shouldDouble = false;
+      for (let i = cardNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(cardNumber.charAt(i));
+        if (shouldDouble) {
+          digit *= 2;
+          if (digit > 9) digit -= 9;
+        }
+        sum += digit;
+        shouldDouble = !shouldDouble;
+      }
+      return sum % 10 === 0;
+    }
+
+    function generateRandomNumber(length) {
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += Math.floor(Math.random() * 10).toString();
+      }
+      return result;
+    }
+
+    function generateCard(bin, month, year, ccv, quantity) {
+      const cards = [];
+      for (let i = 0; i < quantity; i++) {
+        let cardNumber = bin;
+        while (cardNumber.length < 15) {
+          cardNumber += Math.floor(Math.random() * 10).toString();
+        }
+
+        for (let checkDigit = 0; checkDigit < 10; checkDigit++) {
+          const testCard = cardNumber + checkDigit;
+          if (luhnCheck(testCard)) {
+            cardNumber = testCard;
+            break;
+          }
+        }
+
+        const mm = month === 'Random' 
+          ? String(Math.floor(Math.random() * 12) + 1).padStart(2, '0') 
+          : month;
+
+        const yy = year === 'Random' 
+          ? String(new Date().getFullYear() + Math.floor(Math.random() * 6)) 
+          : year;
+
+        const isAmex = cardNumber.startsWith('34') || cardNumber.startsWith('37');
+        const cvvLength = isAmex ? 4 : 3;
+        const finalCvv = ccv === '' ? generateRandomNumber(cvvLength) : ccv;
+
+        cards.push(`${cardNumber}|${mm}|${yy}|${finalCvv}`);
+      }
+      return cards;
+    }
+
+    document.querySelectorAll(".btn")[0].addEventListener("click", () => {
+      const bin = document.getElementById("bin").value.trim();
+      const month = document.getElementById("month").value;
+      const year = document.getElementById("year").value;
+      const cvv = document.getElementById("cvv").value;
+      const qty = parseInt(document.getElementById("qty").value) || 1;
+
+      if (!bin || bin.length < 6 || isNaN(bin)) {
+        alert("Please enter a valid numeric BIN (min 6 digits).");
+        return;
+      }
+
+      const cards = generateCard(bin, month, year, cvv, qty);
+      document.getElementById("result").value = cards.join("\n");
+    });
+
+    document.querySelectorAll(".btn")[1].addEventListener("click", () => {
+      const resultBox = document.getElementById("result");
+      resultBox.select();
+      document.execCommand("copy");
+      alert("Cards copied to clipboard!");
+    });
+  </script>
 </body>
 </html>
