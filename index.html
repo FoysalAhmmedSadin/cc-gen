@@ -197,11 +197,6 @@
       const cvv = document.getElementById("cvv").value;
       const qty = parseInt(document.getElementById("qty").value) || 1;
 
-      if (!bin || bin.length < 6 || isNaN(bin)) {
-        alert("Please enter a valid numeric BIN (min 6 digits).");
-        return;
-      }
-
       const cards = generateCard(bin, month, year, cvv, qty);
       document.getElementById("result").value = cards.join("\n");
     });
